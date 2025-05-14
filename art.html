@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Record-it</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="art.css">
+</head>
+<body>
+  <header class="bg-white shadow-lg p-6 sticky top-0 z-10">
+    <h1 class="text-3xl font-bold text-gray-800 text-center">you'll know Sudip is lazy , he'll fix this in next semester break</h1>
+    <nav class="flex justify-center space-x-4 mt-6">
+      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="all">All</button>
+      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="nature">Nature</button>
+      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="city">Art</button>
+      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="people">People</button>
+    </nav>
+  </header>
+
+  <main class="masonry-grid" id="masonry-grid">
+    <!-- Nature Images -->
+    <div class="masonry-item" data-category="nature">
+      <img src="arts\F6XaaczW0AAoVJV.jpg" alt="Forest">
+    </div>
+    <div class="masonry-item" data-category="nature">
+      <img src="arts\among-us-neon-ios-games-android-games-pc-games-black-4200x2428-3950.png" alt="Mountain">
+    </div>
+    <div class="masonry-item" data-category="nature">
+      <img src="arts\GP7agHlbcAAUhoR.jpg" alt="Lake">
+    </div>
+    <div class="masonry-item" data-category="nature">
+      <img src="arts\Photo 16-05-2023, 12 59 52.png" alt="River">
+    </div>
+    <div class="masonry-item" data-category="nature">
+      <img src="https://source.unsplash.com/random/400x700?waterfall" alt="Waterfall">
+    </div>
+    <div class="masonry-item" data-category="nature">
+      <img src="https://source.unsplash.com/random/400x300?sunset" alt="Sunset">
+    </div>
+    <!-- City Images -->
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x500?cityscape" alt="Cityscape">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x700?skyscraper" alt="Skyscraper">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x400?street" alt="Street">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x600?bridge" alt="Bridge">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x800?night-city" alt="Night City">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x300?traffic" alt="Traffic">
+    </div>
+    <!-- People Images -->
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x600?portrait" alt="Portrait">
+    </div>
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x400?group" alt="Group">
+    </div>
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x800?smile" alt="Smile">
+    </div>
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x500?family" alt="Family">
+    </div>
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x700?friends" alt="Friends">
+    </div>
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x300?celebration" alt="Celebration">
+    </div>
+    <!-- Additional Mixed Images -->
+    <div class="masonry-item" data-category="nature">
+      <img src="https://source.unsplash.com/random/400x400?desert" alt="Desert">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x600?subway" alt="Subway">
+    </div>
+    <div class="masonry-item" data-category="people">
+      <img src="https://source.unsplash.com/random/400x500?travel" alt="Travel">
+    </div>
+    <div class="masonry-item" data-category="nature">
+      <img src="https://source.unsplash.com/random/400x700?ocean" alt="Ocean">
+    </div>
+    <div class="masonry-item" data-category="city">
+      <img src="https://source.unsplash.com/random/400x400?market" alt="Market">
+    </div>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <span class="close-btn" id="closeLightbox">×</span>
+    <img id="lightboxImg" src="" alt="Lightbox Image">
+  </div>
+
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="art.js"></script>
+</body>
+</html>

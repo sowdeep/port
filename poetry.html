@@ -1,0 +1,907 @@
+<html><head><base href="https://philo-notes.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PHILO - Your Personal Note-Taking App</title>
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+    .header {
+        background-color: #fff;
+        padding: 12px 16px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px; 
+    }
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4285f4;
+    }
+    .search-bar {
+        flex-grow: 1;
+        margin: 0 10px;
+        max-width: 600px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .search-bar input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px; 
+        margin-left: auto;
+    }
+    .user-actions button {
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .profile-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .profile-btn:hover {
+        transform: scale(1.1);
+    }
+    .profile-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .view-toggle-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        color: #5f6368;
+        font-size: 20px;
+        margin-left: auto; 
+    }
+    .main-content {
+        display: flex;
+        padding: 20px;
+    }
+    .sidebar {
+        width: 250px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .sidebar li {
+        margin-bottom: 10px;
+    }
+    .sidebar a {
+        text-decoration: none;
+        color: #333;
+        cursor: pointer;
+        display: block;
+        padding: 10px 15px;
+        background-color: transparent;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 1px solid #ddd;
+    }
+    .sidebar a:hover {
+        background-color: #e8f0fe; 
+        color: #4285f4; 
+        transform: translateX(5px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .sidebar a.active {
+        background-color: #e8f0fe;
+        color: #4285f4;
+    }
+    .notes-container {
+        flex-grow: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-left: 20px;
+    }
+    .notes-container.list-view {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .notes-container.list-view .note {
+        width: calc(100% - 20px);
+        min-height: 80px;
+    }
+    .note {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 16px;
+        width: calc(33.33% - 20px);
+        min-height: 150px;
+        position: relative;
+    }
+    .note.pinned {
+        border: 2px solid #4285f4;
+        background-color: #f8f9fa;
+    }
+    .note.pinned::before {
+        content: '📌';
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: white;
+        border-radius: 50%;
+        padding: 2px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .note-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    .note-content {
+        font-size: 14px;
+    }
+    .note-actions {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        display: none;
+    }
+    .note:hover .note-actions {
+        display: block;
+    }
+    .note-actions button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-left: 5px;
+        font-size: 18px;
+    }
+    .add-note {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 25px;
+        border: 1px solid #888;
+        width: 90%; 
+        max-width: 800px; 
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .loading {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+    .loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #4285f4;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    .error-message {
+        color: #d93025;
+        font-size: 12px;
+        margin-top: 4px;
+        display: none;
+    }
+    .invalid input {
+        border-color: #d93025;
+    }
+    .invalid .error-message {
+        display: block;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .g-signin2 {
+        margin-left: 10px;
+    }
+    #paint-canvas {
+        border: 1px solid #ddd;
+        background: white;
+        cursor: crosshair;
+        width: 100%; 
+        margin: 10px 0;
+    }
+    .paint-tools {
+        margin: 15px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+        padding: 10px;
+        background: #f5f5f5;
+        border-radius: 8px;
+    }
+    .paint-tools button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #4285f4;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .paint-tools button:hover {
+        background: #3367d6;
+    }
+    #brush-size {
+        width: 150px;
+    }
+    #color-picker {
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .brush-size-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    #note-title {
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    #note-content {
+        width: 100%;
+        height: 300px; 
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        resize: vertical;
+    }
+    #save-note {
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    #save-note:hover {
+        background-color: #3367d6;
+    }
+    .voice-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+    }
+    .record-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        background: #4285f4;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+    .record-btn:hover {
+        background: #3367d6;
+    }
+    .record-btn.recording {
+        background: #d93025;
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    #recording-status {
+        font-size: 14px;
+        color: #666;
+    }
+    #recording-time {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4285f4;
+    }
+    .save-btn {
+        padding: 10px 20px;
+        background: #34a853;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+</style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">PHILO</div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search your notes">
+            <button id="view-toggle-btn" class="view-toggle-btn" title="Change view">☰</button>
+        </div>
+        <div class="user-actions">
+            <button id="upload-btn">Upload</button>
+            <div id="google-signin" class="g-signin2" data-onsuccess="onSignIn"></div>
+            <button class="profile-btn" id="profile-btn" style="display: none;">
+                <img id="profile-img" src="https://ui-avatars.com/api/?name=U&amp;background=random" alt="User profile" width="40" height="40">
+            </button>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#" id="notes-link" class="active">Notes</a></li>
+                <li><a href="#" id="paint-link">Paint</a></li>
+                <li><a href="#" id="reminders-link">Reminders</a></li>
+                <li><a href="#" id="labels-link">Labels</a></li>
+                <li><a href="#" id="archive-link">Archive</a></li>
+                <li><a href="#" id="trash-link">Trash</a></li>
+            </ul>
+        </aside>
+
+        <main class="notes-container" id="notes-container">
+<div class="note">
+    <div style="position: absolute; top: -10px; right: -10px; opacity: 0.5;">📌</div>
+    <div class="note-title">Sample Note</div>
+    <div class="note-content">This is a sample note content.</div>
+    <div class="note-actions">
+        <button onclick="togglePin('sample-id')" title="Pin note">📍</button>
+        <button onclick="editNote('sample-id')">✏️</button>
+        <button onclick="openPaintTool('sample-id')">🎨</button>
+        <button onclick="moveToArchive('sample-id')">📥</button>
+        <button onclick="moveToTrash('sample-id')">🗑️</button>
+        <button onclick="openVoiceRecorder('sample-id')" title="Add voice note">🎤</button>
+    </div>
+</div>
+</main>
+    </div>
+
+    <button class="add-note" id="add-note-btn">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 2C21.1046 2 22 2.89543 22 4C22 4 22 4 22 4.2L22 19.8C22 19.8 22 20 22 20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20V4C2 2.89543 2.89543 2 4 2H20ZM7 11C6.44772 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H7ZM7 7C6.44772 7 6 7.44772 6 8C6 8.55228 6.44772 9 7 9H17C17.5523 9 18 8.55228 18 8C18 7.44772 17.5523 7 17 7H7ZM7 15C6.44772 15 6 15.4477 6 16C6 16.5523 6.44772 17 7 17H12C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15H7Z" fill="white"></path>
+  <text x="16" y="8" font-size="8" fill="white">✍️</text>
+</svg>
+</button>
+
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Add/Edit Note</h2>
+            <input type="text" id="note-title" placeholder="Title">
+            <textarea id="note-content" placeholder="Take a note..."></textarea>
+            <button id="save-note">Save Note</button>
+        </div>
+    </div>
+
+    <div id="paint-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Paint Note</h2>
+            <canvas id="paint-canvas" width="750" height="500"></canvas>
+            <div class="paint-tools">
+                <input type="color" id="color-picker" value="#000000" title="Choose Color">
+                <div class="brush-size-label">
+                    <label for="brush-size">Brush Size:</label>
+                    <input type="range" id="brush-size" min="1" max="50" value="5">
+                    <span id="size-display">5px</span>
+                </div>
+                <button id="clear-canvas">Clear Canvas</button>
+                <button id="save-paint">Save to Note</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="voice-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2>Record Voice Note</h2>
+            <div class="voice-controls">
+                <button id="start-recording" class="record-btn">🎤 Start Recording</button>
+                <button id="stop-recording" class="record-btn" style="display:none">⏹️ Stop Recording</button>
+                <div id="recording-status">Click to start recording</div>
+                <div id="recording-time">00:00</div>
+                <audio id="audio-player" controls style="display:none; width:100%; margin-top:10px;"></audio>
+                <button id="save-recording" class="save-btn" style="display:none">💾 Save Recording</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script>
+        const notesContainer = document.getElementById('notes-container');
+        const addNoteBtn = document.getElementById('add-note-btn');
+        const noteModal = document.getElementById('note-modal');
+        const closeModal = document.querySelector('.close');
+        const saveNoteBtn = document.getElementById('save-note');
+        const noteTitleInput = document.getElementById('note-title');
+        const noteContentInput = document.getElementById('note-content');
+        const uploadBtn = document.getElementById('upload-btn');
+        const searchInput = document.getElementById('search-input');
+        const notesLink = document.getElementById('notes-link');
+        const paintLink = document.getElementById('paint-link');
+        const remindersLink = document.getElementById('reminders-link');
+        const archiveLink = document.getElementById('archive-link');
+        const trashLink = document.getElementById('trash-link');
+        const viewToggleBtn = document.getElementById('view-toggle-btn');
+
+        let notes = JSON.parse(localStorage.getItem('notes')) || [];
+        let trash = JSON.parse(localStorage.getItem('trash')) || [];
+        let archive = JSON.parse(localStorage.getItem('archive')) || [];
+        let editingNoteId = null;
+        let currentView = 'notes';
+        let isListView = false;
+        let userProfile = null;
+        let currentNoteId = null;
+
+        const paintCanvas = document.getElementById('paint-canvas');
+        const ctx = paintCanvas.getContext('2d');
+
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordingTimer = null;
+        let recordingDuration = 0;
+
+        function renderNotes(noteList = notes) {
+            notesContainer.innerHTML = '';
+
+            const sortedNotes = [...noteList].sort((a, b) => {
+                if ((b.pinned || false) === (a.pinned || false)) return 0;
+                return (b.pinned || false) ? 1 : -1;
+            });
+
+            sortedNotes.forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.classList.add('note');
+                if (note.pinned) noteElement.classList.add('pinned');
+                noteElement.innerHTML = `
+                    <div class="note-title">${note.title}</div>
+                    <div class="note-content">${note.content}</div>
+                    <div class="note-actions">
+                        ${currentView === 'notes' ? `
+                            <button onclick="togglePin('${note.id}')" title="${note.pinned ? 'Unpin' : 'Pin'} note">
+                                ${note.pinned ? '📌' : '📍'}
+                            </button>
+                            <button onclick="editNote('${note.id}')">✏️</button>
+                            <button onclick="openPaintTool('${note.id}')">🎨</button>
+                            <button onclick="moveToArchive('${note.id}')">📥</button>
+                            <button onclick="moveToTrash('${note.id}')">🗑️</button>
+                            <button onclick="openVoiceRecorder('${note.id}')" title="Add voice note">🎤</button>
+                        ` : currentView === 'archive' ? `
+                            <button onclick="restoreFromArchive('${note.id}')">♻️</button>
+                            <button onclick="moveToTrash('${note.id}')">🗑️</button>
+                        ` : `
+                            <button onclick="restoreNote('${note.id}')">♻️</button>
+                            <button onclick="permanentlyDeleteNote('${note.id}')">🗑️</button>
+                        `}
+                    </div>
+                `;
+                notesContainer.appendChild(noteElement);
+            });
+        }
+
+        function togglePin(id) {
+            const noteIndex = notes.findIndex(note => note.id === id);
+            if (noteIndex !== -1) {
+                notes[noteIndex].pinned = !notes[noteIndex].pinned;
+                saveNotes();
+                renderNotes();
+            }
+        }
+
+        function addNote() {
+            editingNoteId = null;
+            noteTitleInput.value = '';
+            noteContentInput.value = '';
+            noteModal.style.display = 'block';
+            noteTitleInput.focus();
+        }
+
+        function editNote(id) {
+            editingNoteId = id;
+            const note = notes.find(n => n.id === id);
+            noteTitleInput.value = note.title;
+            noteContentInput.value = note.content;
+            noteModal.style.display = 'block';
+        }
+
+        function moveToTrash(id) {
+            const noteIndex = notes.findIndex(note => note.id === id);
+            if (noteIndex !== -1) {
+                const [removedNote] = notes.splice(noteIndex, 1);
+                trash.push(removedNote);
+                saveNotes();
+                saveTrash();
+                renderNotes();
+            }
+        }
+
+        function moveToArchive(id) {
+            const noteIndex = notes.findIndex(note => note.id === id);
+            if (noteIndex !== -1) {
+                const [archivedNote] = notes.splice(noteIndex, 1);
+                archive.push(archivedNote);
+                saveNotes();
+                saveArchive();
+                renderNotes();
+            }
+        }
+
+        function restoreFromArchive(id) {
+            const noteIndex = archive.findIndex(note => note.id === id);
+            if (noteIndex !== -1) {
+                const [restoredNote] = archive.splice(noteIndex, 1);
+                notes.push(restoredNote);
+                saveNotes();
+                saveArchive();
+                renderNotes();
+            }
+        }
+
+        function restoreNote(id) {
+            const noteIndex = trash.findIndex(note => note.id === id);
+            if (noteIndex !== -1) {
+                const [restoredNote] = trash.splice(noteIndex, 1);
+                notes.push(restoredNote);
+                saveNotes();
+                saveTrash();
+                renderNotes(trash); 
+            }
+        }
+
+        function permanentlyDeleteNote(id) {
+            const noteIndex = trash.findIndex(note => note.id === id);
+            if (noteIndex !== -1) {
+                trash.splice(noteIndex, 1);
+                saveTrash();
+                renderNotes(trash); 
+            }
+        }
+
+        function saveNotes() {
+            localStorage.setItem('notes', JSON.stringify(notes));
+        }
+
+        function saveTrash() {
+            localStorage.setItem('trash', JSON.stringify(trash));
+        }
+
+        function saveArchive() {
+            localStorage.setItem('archive', JSON.stringify(archive));
+        }
+
+        function searchNotes() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredNotes = currentView === 'notes' ? notes : currentView === 'archive' ? archive : trash;
+            const searchResults = filteredNotes.filter(note => 
+                note.title.toLowerCase().includes(searchTerm) || 
+                note.content.toLowerCase().includes(searchTerm)
+            );
+            renderNotes(searchResults);
+        }
+
+        saveNoteBtn.addEventListener('click', () => {
+            const title = noteTitleInput.value.trim();
+            const content = noteContentInput.value.trim();
+            
+            if (!title || !content) {
+                alert('Please fill in both title and content');
+                return;
+            }
+
+            if (editingNoteId) {
+                const noteIndex = notes.findIndex(note => note.id === editingNoteId);
+                if (noteIndex !== -1) {
+                    notes[noteIndex].title = title;
+                    notes[noteIndex].content = content;
+                }
+            } else {
+                const newNote = {
+                    id: uuid.v4(),
+                    title: title,
+                    content: content,
+                    timestamp: new Date().toISOString(),
+                    pinned: false
+                };
+                notes.push(newNote);
+            }
+
+            saveNotes();
+            renderNotes();
+            noteModal.style.display = 'none';
+            noteTitleInput.value = '';
+            noteContentInput.value = '';
+            editingNoteId = null;
+        });
+
+        addNoteBtn.addEventListener('click', addNote);
+        closeModal.addEventListener('click', () => {
+            noteModal.style.display = 'none';
+        });
+        searchInput.addEventListener('input', searchNotes);
+
+        notesLink.addEventListener('click', () => {
+            currentView = 'notes';
+            renderNotes();
+        });
+
+        paintLink.addEventListener('click', () => {
+            paintModal.style.display = 'block';
+            ctx.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
+            currentView = 'paint';
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            paintLink.classList.add('active');
+        });
+
+        remindersLink.addEventListener('click', () => {
+            currentView = 'reminders';
+            renderNotes();
+        });
+
+        archiveLink.addEventListener('click', () => {
+            currentView = 'archive';
+            renderNotes(archive);
+        });
+
+        trashLink.addEventListener('click', () => {
+            currentView = 'trash';
+            renderNotes(trash);
+        });
+
+        viewToggleBtn.addEventListener('click', () => {
+            isListView = !isListView;
+            notesContainer.classList.toggle('list-view', isListView);
+            viewToggleBtn.textContent = isListView ? '⊞' : '☰';
+            viewToggleBtn.title = isListView ? 'Grid view' : 'List view';
+        });
+
+        uploadBtn.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const content = event.target.result;
+                    notes.push({ id: uuid.v4(), title: file.name, content });
+                    saveNotes();
+                    renderNotes();
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        });
+
+        function onSignIn(googleUser) {
+            userProfile = googleUser.getBasicProfile();
+            const profileBtn = document.getElementById('profile-btn');
+            const profileImg = document.getElementById('profile-img');
+            const googleSignin = document.getElementById('google-signin');
+            
+            profileImg.src = userProfile.getImageUrl();
+            profileImg.alt = userProfile.getName();
+            profileBtn.style.display = 'flex';
+            googleSignin.style.display = 'none';
+        }
+
+        document.getElementById('profile-btn').addEventListener('click', function() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                userProfile = null;
+                const profileBtn = document.getElementById('profile-btn');
+                const googleSignin = document.getElementById('google-signin');
+                profileBtn.style.display = 'none';
+                googleSignin.style.display = 'block';
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                noteModal.style.display = 'none';
+                paintModal.style.display = 'none';
+                document.getElementById('voice-modal').style.display = 'none';
+            }
+        });
+
+        window.onclick = event => {
+            if (event.target === noteModal) {
+                noteModal.style.display = 'none';
+            }
+            if (event.target === paintModal) {
+                paintModal.style.display = 'none';
+            }
+            if (event.target === document.getElementById('voice-modal')) {
+                document.getElementById('voice-modal').style.display = 'none';
+            }
+        };
+
+        function openVoiceRecorder(noteId) {
+            currentNoteId = noteId;
+            document.getElementById('voice-modal').style.display = 'block';
+            document.getElementById('audio-player').style.display = 'none';
+            document.getElementById('save-recording').style.display = 'none';
+            document.getElementById('start-recording').style.display = 'block';
+            document.getElementById('stop-recording').style.display = 'none';
+            document.getElementById('recording-status').textContent = 'Click to start recording';
+            document.getElementById('recording-time').textContent = '00:00';
+        }
+
+        function startVoiceRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        const audioPlayer = document.getElementById('audio-player');
+                        audioPlayer.src = audioUrl;
+                        audioPlayer.style.display = 'block';
+                        document.getElementById('save-recording').style.display = 'block';
+                    };
+
+                    mediaRecorder.start();
+                    document.getElementById('start-recording').style.display = 'none';
+                    document.getElementById('stop-recording').style.display = 'block';
+                    document.getElementById('recording-status').textContent = 'Recording...';
+                    
+                    startRecordingTimer();
+                });
+        }
+
+        function stopVoiceRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                document.getElementById('start-recording').style.display = 'block';
+                document.getElementById('stop-recording').style.display = 'none';
+                document.getElementById('recording-status').textContent = 'Recording finished';
+                stopRecordingTimer();
+            }
+        }
+
+        function startRecordingTimer() {
+            recordingDuration = 0;
+            recordingTimer = setInterval(() => {
+                recordingDuration++;
+                const minutes = Math.floor(recordingDuration / 60);
+                const seconds = recordingDuration % 60;
+                document.getElementById('recording-time').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function stopRecordingTimer() {
+            if (recordingTimer) {
+                clearInterval(recordingTimer);
+                recordingTimer = null;
+            }
+        }
+
+        function saveVoiceNote() {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = () => {
+                const base64Audio = reader.result;
+                const newNote = {
+                    id: uuid.v4(),
+                    title: 'Voice Note - ' + new Date().toLocaleString(),
+                    content: `<audio controls src="${base64Audio}"></audio>`,
+                    timestamp: new Date().toISOString(),
+                    type: 'voice'
+                };
+                notes.push(newNote);
+                saveNotes();
+                renderNotes();
+                document.getElementById('voice-modal').style.display = 'none';
+            };
+        }
+
+        document.getElementById('start-recording').addEventListener('click', startVoiceRecording);
+        document.getElementById('stop-recording').addEventListener('click', stopVoiceRecording);
+        document.getElementById('save-recording').addEventListener('click', saveVoiceNote);
+
+        renderNotes();
+
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+            });
+        });
+    </script>
+
+</body></html>

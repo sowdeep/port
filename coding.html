@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LazyFPS</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      overflow-x: hidden;
+    }
+    .navbar {
+      background: #1a1a1a;
+    }
+    .navbar a {
+      transition: color 0.3s ease;
+    }
+    .navbar a:hover {
+      color: #00f6ff;
+    }
+    .game-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 12px;
+      background: #1e1e1e;
+      border: 2px solid #2a2a2a;
+    }
+    .game-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 246, 255, 0.7);
+    }
+    .game-card img {
+      transition: transform 0.5s ease, opacity 0.3s ease;
+    }
+    .game-card:hover img {
+      opacity: 0.9;
+      transform: scale(1.1);
+    }
+    .hero-section {
+      background: url('https://source.unsplash.com/random/1920x800?esports') center/cover no-repeat;
+      height: 70vh;
+      position: relative;
+    }
+    .hero-overlay {
+      background: rgba(0, 0, 0, 0.75);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .neon-line {
+      height: 4px;
+      background: #00f6ff;
+      box-shadow: 0 0 10px #00f6ff, 0 0 20px #00f6ff;
+      margin-bottom: 1rem;
+    }
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    .preloader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    footer {
+      background: #1a1a1a;
+    }
+    footer a {
+      transition: color 0.3s ease;
+    }
+    footer a:hover {
+      color: #00f6ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="animate-spin h-16 w-16 border-4 border-t-4 border-t-cyan-500 border-gray-800 rounded-full"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar fixed top-0 w-full p-4 flex justify-between items-center z-50">
+    <div class="text-2xl font-bold">LazyFPS</div>
+    <div class="space-x-4">
+      <a href="#" class="hover:text-cyan-300 transition-colors">Home</a>
+      <a href="#" class="hover:text-cyan-300 transition-colors">Games</a>
+      <a href="#" class="hover:text-cyan-300 transition-colors">About</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section" data-aos="fade-up">
+    <div class="hero-overlay">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4" id="quote-text"></h1>
+        <p class="text-lg md:text-xl" id="quote-author"></p>
+        <button class="mt-6 bg-cyan-500 hover:bg-cyan-600 text-black font-bold py-2 px-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-cyan-500/50">
+          Start Playing
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Game Grid -->
+  <section class="py-12 px-4 max-w-7xl mx-auto">
+    <div class="neon-line"></div>
+    <h2 class="text-3xl font-bold text-center mb-8" data-aos="fade-up">you'll know Sudip is lazy , he'll fix this in next semester break</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="https://www.miniclip.com/games/8-ball-pool/en/" target="_blank" class="game-card" data-aos="fade-up" data-aos-delay="100">
+        <img src="https://source.unsplash.com/random/300x200?pool" alt="8 Ball Pool" class="w-full h-48 object-cover">
+        <div class="p-4 relative z-10">
+          <h3 class="text-xl font-bold">8 Ball Pool</h3>
+          <p class="text-sm text-gray-400">Challenge your friends in this classic billiards game.</p>
+        </div>
+      </a>
+      <a href="https://www.crazygames.com/game/slope" target="_blank" class="game-card" data-aos="fade-up" data-aos-delay="200">
+        <img src="https://source.unsplash.com/random/300x200?race" alt="Slope" class="w-full h-48 object-cover">
+        <div class="p-4 relative z-10">
+          <h3 class="text-xl font-bold">Slope</h3>
+          <p class="text-sm text-gray-400">Race down an endless slope at breakneck speed.</p>
+        </div>
+      </a>
+      <a href="https://www.addictinggames.com/game/bubble-spinner" target="_blank" class="game-card" data-aos="fade-up" data-aos-delay="300">
+        <img src="https://source.unsplash.com/random/300x200?bubble" alt="Bubble Spinner" class="w-full h-48 object-cover">
+        <div class="p-4 relative z-10">
+          <h3 class="text-xl font-bold">Bubble Spinner</h3>
+          <p class="text-sm text-gray-400">Pop bubbles in this addictive spinning puzzle.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black py-6 text-center">
+    <p>© 2025 LazyFPS Hub. All rights reserved.</p>
+    <div class="mt-2 space-x-4">
+      <a href="#" class="transition-colors">Twitter</a>
+      <a href="#" class="transition-colors">Discord</a>
+      <a href="#" class="transition-colors">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 1000);
+    });
+
+    const quotes = [
+      { quote: "I'm gonna make him an offer he can't refuse.", character: "Vito Corleone", movie: "The Godfather (1972)" },
+      { quote: "I'll be back.", character: "The Terminator", movie: "The Terminator (1984)" },
+      { quote: "Yippie-ki-yay, motherfucker!", character: "John McClane", movie: "Die Hard (1988)" },
+      { quote: "Say 'what' again, I dare you!", character: "Jules Winnfield", movie: "Pulp Fiction (1994)" },
+      { quote: "My name is Maximus Decimus Meridius... And I will have my vengeance.", character: "Maximus", movie: "Gladiator (2000)" },
+      { quote: "I ain't got time to bleed.", character: "Blain Cooper", movie: "Predator (1987)" },
+      { quote: "Come with me if you want to live.", character: "Kyle Reese", movie: "The Terminator (1984)" },
+      { quote: "Go ahead, make my day.", character: "Harry Callahan", movie: "Sudden Impact (1983)" },
+      { quote: "Dead or alive, you're coming with me.", character: "RoboCop", movie: "RoboCop (1987)" },
+      { quote: "You can't handle the truth!", character: "Col. Nathan Jessup", movie: "A Few Good Men (1992)" },
+      { quote: "I love the smell of napalm in the morning.", character: "Lt. Col. Bill Kilgore", movie: "Apocalypse Now (1979)" },
+      { quote: "Hasta la vista, baby.", character: "The Terminator", movie: "Terminator 2: Judgment Day (1991)" },
+      { quote: "Get to the choppa!", character: "Dutch", movie: "Predator (1987)" },
+      { quote: "This is Sparta!", character: "King Leonidas", movie: "300 (2006)" },
+      { quote: "Keep your friends close, but your enemies closer.", character: "Michael Corleone", movie: "The Godfather Part II (1974)" },
+      { quote: "I am serious. And don't call me Shirley.", character: "Dr. Rumack", movie: "Airplane! (1980)" },
+      { quote: "Why so serious?", character: "The Joker", movie: "The Dark Knight (2008)" },
+      { quote: "There's no crying in baseball!", character: "Jimmy Dugan", movie: "A League of Their Own (1992)" },
+      { quote: "I'm king of the world!", character: "Jack Dawson", movie: "Titanic (1997)" },
+      { quote: "Show me the money!", character: "Rod Tidwell", movie: "Jerry Maguire (1996)" },
+      { quote: "Life is like a box of chocolates, you never know what you're gonna get.", character: "Forrest Gump", movie: "Forrest Gump (1994)" },
+      { quote: "Do or do not. There is no try.", character: "Yoda", movie: "Star Wars: Episode V – The Empire Strikes Back (1980)" },
+      { quote: "All we have to decide is what to do with the time that is given to us.", character: "Gandalf", movie: "The Lord of the Rings: The Fellowship of the Ring (2001)" },
+      { quote: "Hope is a good thing, maybe the best of things, and no good thing ever dies.", character: "Andy Dufresne", movie: "The Shawshank Redemption (1994)" },
+      { quote: "You mustn't be afraid to dream a little bigger, darling.", character: "Eames", movie: "Inception (2010)" },
+      { quote: "It's not who I am underneath, but what I do that defines me.", character: "Batman", movie: "Batman Begins (2005)" },
+      { quote: "Get busy livin' or get busy dyin'.", character: "Andy Dufresne", movie: "The Shawshank Redemption (1994)" },
+      { quote: "The greatest trick the devil ever pulled was convincing the world he didn't exist.", character: "Verbal Kint", movie: "The Usual Suspects (1995)" },
+      { quote: "I drink your milkshake!", character: "Daniel Plainview", movie: "There Will Be Blood (2007)" },
+      { quote: "Nobody puts Baby in a corner.", character: "Johnny Castle", movie: "Dirty Dancing (1987)" },
+      { quote: "Just keep swimming.", character: "Dory", movie: "Finding Nemo (2003)" },
+      { quote: "You're gonna need a bigger boat.", character: "Chief Brody", movie: "Jaws (1975)" },
+      { quote: "I see dead people.", character: "Cole Sear", movie: "The Sixth Sense (1999)" },
+      { quote: "Carpe diem. Seize the day, boys.", character: "John Keating", movie: "Dead Poets Society (1989)" },
+      { quote: "My precious.", character: "Gollum", movie: "The Lord of the Rings: The Two Towers (2002)" },
+      { quote: "You talking to me?", character: "Travis Bickle", movie: "Taxi Driver (1976)" },
+      { quote: "I'm walking here!", character: "Ratso Rizzo", movie: "Midnight Cowboy (1969)" },
+      { quote: "As you wish.", character: "Westley", movie: "The Princess Bride (1987)" },
+      { quote: "Here's looking at you, kid.", character: "Rick Blaine", movie: "Casablanca (1942)" },
+      { quote: "May the Force be with you.", character: "Han Solo", movie: "Star Wars: Episode IV – A New Hope (1977)" },
+      { quote: "I feel the need—the need for speed!", character: "Maverick", movie: "Top Gun (1986)" },
+      { quote: "Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.", character: "Ferris Bueller", movie: "Ferris Bueller's Day Off (1986)" },
+      { quote: "To infinity and beyond!", character: "Buzz Lightyear", movie: "Toy Story (1995)" },
+      { quote: "Every man dies, but not every man really lives.", character: "William Wallace", movie: "Braveheart (1995)" },
+      { quote: "I'm not bad. I'm just drawn that way.", character: "Jessica Rabbit", movie: "Who Framed Roger Rabbit (1988)" },
+      { quote: "There's no place like home.", character: "Dorothy Gale", movie: "The Wizard of Oz (1939)" },
+      { quote: "It's only after we've lost everything that we're free to do anything.", character: "Tyler Durden", movie: "Fight Club (1999)" },
+      { quote: "I'm the king of the world!", character: "Jack Dawson", movie: "Titanic (1997)" },
+      { quote: "You can't live your life to please others. The choice must be yours.", character: "White Queen", movie: "Alice in Wonderland (2010)" },
+      { quote: "In every job that must be done, there is an element of fun.", character: "Mary Poppins", movie: "Mary Poppins (1964)" }
+    ];
+
+    window.addEventListener('load', () => {
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quote-text').textContent = `"${randomQuote.quote}"`;
+      document.getElementById('quote-author').textContent = `${randomQuote.character} - ${randomQuote.movie}`;
+    });
+  </script>
+</body>
+</html>
