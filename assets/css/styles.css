@@ -1217,6 +1217,7 @@ img {
     }
     .portfolio__img {
         width: 320px;
+        height: 250px;
     }
     .portfolio__content {
         align-items: center;
@@ -1288,7 +1289,7 @@ img {
         bottom: -4.5rem;
     }
     .contact__form {
-        width: 460px;
+        width: 460px
     }
     .contact__inputs {
         grid-template-columns: repeat(2, 1fr);
