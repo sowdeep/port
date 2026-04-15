@@ -1,105 +1,711 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Record-it</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="art.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Story of Shutterbug</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text: #141414;
+      --muted: #6a6a6a;
+      --card: #ffffff;
+      --border: #e9e9e9;
+      --accent: #111111;
+      --shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      --panel: rgba(255, 255, 255, 0.98);
+    }
+
+    body[data-theme="dark"] {
+      --bg: #0d0d0d;
+      --text: #f4f4f4;
+      --muted: #a2a2a2;
+      --card: #151515;
+      --border: #262626;
+      --accent: #ffffff;
+      --shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      --panel: rgba(18, 18, 18, 0.98);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .hero {
+      padding: 2rem 0 1rem;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .social-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      padding-top: 0.5rem;
+    }
+
+    .rail-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .social {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+      flex: 0 0 auto;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .social:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.09);
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+
+    .hero-copy {
+      text-align: center;
+      padding-right: 2rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 6vw, 4rem);
+      letter-spacing: -0.05em;
+      line-height: 0.98;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      max-width: 780px;
+      margin: 0.9rem auto 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 1rem;
+    }
+
+    .slogan {
+      margin: 1.7rem auto 0.7rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+    }
+
+    .slogan .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      display: inline-block;
+      opacity: 0.8;
+    }
+
+    .folders {
+      margin: 1.35rem auto 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+    }
+
+    .folder-btn, .subfolder-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.62rem 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      font-size: 0.92rem;
+    }
+
+    .subfolder-btn {
+      padding: 0.52rem 0.9rem;
+      font-size: 0.82rem;
+    }
+
+    .folder-btn:hover, .subfolder-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .folder-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    .subfolders {
+      margin: 0.25rem auto 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .subfolder-btn.active {
+      background: #222;
+      color: #fff;
+      border-color: #222;
+    }
+
+    main {
+      padding-bottom: 2rem;
+    }
+
+    .masonry {
+      column-count: 4;
+      column-gap: 0.95rem;
+    }
+
+    @media (max-width: 1080px) { .masonry { column-count: 3; } }
+    @media (max-width: 760px) { .masonry { column-count: 2; } }
+    @media (max-width: 500px) { .masonry { column-count: 1; } }
+
+    .card {
+      break-inside: avoid;
+      margin: 0 0 0.95rem;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    .card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #ddd;
+    }
+
+    .card-footer {
+      padding: 0.65rem 0.8rem 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .media-tag {
+      font-size: 0.73rem;
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .youtube-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.95rem;
+    }
+
+    .youtube-card {
+      display: block;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .youtube-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    .yt-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #ddd;
+      overflow: hidden;
+    }
+
+    .yt-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .yt-thumb::after {
+      content: "▶";
+      position: absolute;
+      inset: auto auto 12px 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(255, 0, 0, 0.92);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .youtube-meta {
+      padding: 0.72rem 0.8rem 0.84rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.65rem;
+      align-items: flex-start;
+    }
+
+    .youtube-meta .card-title {
+      line-height: 1.25;
+      display: block;
+    }
+
+    .youtube-meta .media-tag {
+      margin-top: 0.1rem;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.84);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-content {
+      width: min(920px, 92vw);
+      max-height: 84vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 84vh;
+      object-fit: contain;
+      border-radius: 16px;
+      background: #000;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    .close-btn,
+    .info-btn {
+      position: absolute;
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .close-btn {
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .info-btn {
+      top: 1rem;
+      right: 3.9rem;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .info-panel {
+      position: absolute;
+      right: 1rem;
+      top: 4.8rem;
+      width: min(340px, calc(100vw - 2rem));
+      background: var(--panel);
+      color: var(--text);
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.26);
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .info-panel.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .info-panel h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .info-panel p {
+      margin: 0.45rem 0;
+      font-size: 0.93rem;
+      line-height: 1.48;
+      color: var(--text);
+    }
+
+    .info-panel .muted {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 0.7rem;
+    }
+
+    .theme-floating {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 250;
+    }
+
+    .theme-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.09);
+    }
+
+    footer {
+      margin-top: 2rem;
+      padding: 1.2rem 0 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 760px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+      .social-stack {
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 0;
+      }
+      .rail-label {
+        display: none;
+      }
+      .hero-copy {
+        padding-right: 0;
+      }
+    }
+
+    .photo-portrait { aspect-ratio: 4 / 5; }
+    .photo-landscape { aspect-ratio: 4 / 3; }
+    .photo-square { aspect-ratio: 1 / 1; }
+    .photo-tall { aspect-ratio: 3 / 4; }
+  </style>
 </head>
 <body>
-  <header class="bg-white shadow-lg p-6 sticky top-0 z-10">
-    <h1 class="text-3xl font-bold text-gray-800 text-center">you'll know Sudip is lazy , he'll fix this in next semester break</h1>
-    <nav class="flex justify-center space-x-4 mt-6">
-      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="all">All</button>
-      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="nature">Nature</button>
-      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="city">Art</button>
-      <button class="nav-btn px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" data-category="people">People</button>
-    </nav>
-  </header>
-
-  <main class="masonry-grid" id="masonry-grid">
-    <!-- Nature Images -->
-    <div class="masonry-item" data-category="nature">
-      <img src="arts\F6XaaczW0AAoVJV.jpg" alt="Forest">
-    </div>
-    <div class="masonry-item" data-category="nature">
-      <img src="arts\among-us-neon-ios-games-android-games-pc-games-black-4200x2428-3950.png" alt="Mountain">
-    </div>
-    <div class="masonry-item" data-category="nature">
-      <img src="arts\GP7agHlbcAAUhoR.jpg" alt="Lake">
-    </div>
-    <div class="masonry-item" data-category="nature">
-      <img src="arts\Photo 16-05-2023, 12 59 52.png" alt="River">
-    </div>
-    <div class="masonry-item" data-category="nature">
-      <img src="https://source.unsplash.com/random/400x700?waterfall" alt="Waterfall">
-    </div>
-    <div class="masonry-item" data-category="nature">
-      <img src="https://source.unsplash.com/random/400x300?sunset" alt="Sunset">
-    </div>
-    <!-- City Images -->
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x500?cityscape" alt="Cityscape">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x700?skyscraper" alt="Skyscraper">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x400?street" alt="Street">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x600?bridge" alt="Bridge">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x800?night-city" alt="Night City">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x300?traffic" alt="Traffic">
-    </div>
-    <!-- People Images -->
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x600?portrait" alt="Portrait">
-    </div>
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x400?group" alt="Group">
-    </div>
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x800?smile" alt="Smile">
-    </div>
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x500?family" alt="Family">
-    </div>
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x700?friends" alt="Friends">
-    </div>
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x300?celebration" alt="Celebration">
-    </div>
-    <!-- Additional Mixed Images -->
-    <div class="masonry-item" data-category="nature">
-      <img src="https://source.unsplash.com/random/400x400?desert" alt="Desert">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x600?subway" alt="Subway">
-    </div>
-    <div class="masonry-item" data-category="people">
-      <img src="https://source.unsplash.com/random/400x500?travel" alt="Travel">
-    </div>
-    <div class="masonry-item" data-category="nature">
-      <img src="https://source.unsplash.com/random/400x700?ocean" alt="Ocean">
-    </div>
-    <div class="masonry-item" data-category="city">
-      <img src="https://source.unsplash.com/random/400x400?market" alt="Market">
-    </div>
-  </main>
-
-  <div class="lightbox" id="lightbox">
-    <span class="close-btn" id="closeLightbox">×</span>
-    <img id="lightboxImg" src="" alt="Lightbox Image">
+  <div class="theme-floating">
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">◐</button>
   </div>
 
-  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  <script src="art.js"></script>
-</body>
-</html>
+  <header class="hero wrap">
+    <div class="hero-layout">
+      <aside class="social-stack" aria-label="Social links and theme">
+        <div class="rail-label">Follow</div>
+
+        <a class="social" href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"></rect>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"></circle>
+            <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"></circle>
+          </svg>
+        </a>
+
+        <a class="social" href="https://www.youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M21.6 7.2c-.2-.8-.9-1.5-1.7-1.7C18.4 5.1 12 5.1 12 5.1s-6.4 0-7.9.4c-.8.2-1.5.9-1.7 1.7C2 8.7 2 12 2 12s0 3.3.4 4.8c.2.8.9 1.5 1.7 1.7 1.5.4 7.9.4 7.9.4s6.4 0 7.9-.4c.8-.2 1.5-.9 1.7-1.7.4-1.5.4-4.8.4-4.8s0-3.3-.4-4.8Z" stroke="currentColor" stroke-width="1.8"></path>
+            <path d="M10 9.3 15.5 12 10 14.7V9.3Z" fill="currentColor"></path>
+          </svg>
+        </a>
+      </aside>
+
+      <div class="hero-copy">
+        <p class="eyebrow">Minimal Visual Journal</p>
+        <h1>Story of Shutterbug !!</h1>
+        <p class="subtitle">
+          Pinterest-style masonry gallery with 50 photos in each album. Tap a card to open, then press the <strong>i</strong> icon for story, reason, camera, and date. The last folder includes six subfolders, and the <strong>youtube</strong> folder shows 30 video thumbnails in a rectangular grid.
+        </p>
+        <div class="slogan">
+          <span class="dot"></span>
+          Capture the moment. Keep the story.
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="wrap folders" id="folders"></nav>
+  <div class="wrap subfolders hidden" id="subfolders"></div>
+
+  <main class="wrap">
+    <section id="gallery" aria-live="polite"></section>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close-btn" id="closeBtn" aria-label="Close">×</button>
+    <button class="info-btn" id="infoBtn" aria-label="Toggle media info">i</button>
+
+    <div class="lightbox-content" id="lightboxContent"></div>
+
+    <aside class="info-panel" id="infoPanel">
+      <h2 id="infoTitle"></h2>
+      <p id="infoDescription"></p>
+      <p><strong>Story behind photo:</strong> <span id="infoStory"></span></p>
+      <p><strong>Why clicked:</strong> <span id="infoReason"></span></p>
+      <p><strong>Camera:</strong> <span id="infoCamera"></span></p>
+      <p><strong>Date:</strong> <span id="infoDate"></span></p>
+      <p class="muted" id="infoFolder"></p>
+    </aside>
+  </div>
+
+  <footer>Story of Shutterbug — a visual journal</footer>
+
+  <script>
+    const topFolders = ["All Stories", "Nature", "Street", "Portrait", "Travel", "Mood", "Others", "youtube"];
+    const otherSubfolders = ["Archive", "Film Roll", "Wild Life", "Portrait Lab", "Road Trip", "Textures"];
+    const photoFolders = ["Nature", "Street", "Portrait", "Travel", "Mood", "Others"];
+
+    const cameras = [
+      "Sony A7 IV", "Canon EOS R6", "Nikon Z7 II", "Fujifilm X-T5", "Lumix S5 II",
+      "iPhone 16 Pro", "DJI Pocket 3", "GoPro Hero12", "Leica Q3", "Canon EOS 5D Mark IV"
+    ];
+
+    const storyLines = [
+      "A quiet frame that felt complete the moment the light landed.",
+      "A small everyday scene turned cinematic because of the angle.",
+      "The colors, shadow, and movement lined up for one perfect second.",
+      "I wanted the image to feel like a memory, not just a record.",
+      "The place was ordinary, but the mood made it special.",
+      "This one was kept because it looked honest and unplanned.",
+      "A calm composition with just enough detail to tell the story.",
+      "The frame holds a feeling I did not want to lose.",
+      "A simple moment became the whole narrative.",
+      "The photo works because nothing extra was needed."
+    ];
+
+    const reasons = [
+      "The light was soft and flattering.",
+      "The subject paused at the right time.",
+      "The background and foreground lined up well.",
+      "The colors felt balanced and clean.",
+      "The scene had a strong mood.",
+      "The composition looked naturally framed.",
+      "The motion made it feel alive.",
+      "It reminded me of a travel diary moment."
+    ];
+
+    const dates = [
+      "2024-01-08","2024-02-14","2024-03-01","2024-03-26","2024-04-19",
+      "2024-05-09","2024-06-17","2024-07-04","2024-08-11","2024-09-23",
+      "2024-10-07","2024-11-15","2024-12-20","2025-01-13","2025-02-18"
+    ];
+
+    const sizeClasses = ["photo-portrait", "photo-landscape", "photo-square", "photo-tall"];
+
+    const photoItems = [];
+    photoFolders.forEach((folder) => {
+      for (let i = 0; i < 50; i++) {
+        const isOthers = folder === "Others";
+        const sizeClass = sizeClasses[(i + folder.length) % sizeClasses.length];
+
+        photoItems.push({
+          id: `${folder.toLowerCase()}-${i + 1}`,
+          type: "photo",
+          section: folder,
+          subfolder: isOthers ? otherSubfolders[i % otherSubfolders.length] : "",
+          title: `${folder} ${i + 1}`,
+          src: `https://picsum.photos/seed/${folder.toLowerCase()}-${i + 1}/900/${800 + ((i * 61) % 480)}`,
+          description: storyLines[i % storyLines.length],
+          story: storyLines[(i + 3) % storyLines.length],
+          reason: reasons[i % reasons.length],
+          camera: cameras[i % cameras.length],
+          date: dates[i % dates.length],
+          sizeClass
+        });
+      }
+    });
+
+    const youtubeItems = [
+      "dQw4w9WgXcQ","9bZkp7q19f0","kJQP7kiw5Fk","JGwWNGJdvx8","OPf0YbXqDm0",
+      "YQHsXMglC9A","fRh_vgS2dFE","hT_nvWreIhg","CevxZvSJLk8","2Vv-BfVoq4g",
+      "3JZ_D3ELwOQ","M7lc1UVf-VE","RgKAFK5djSk","e-ORhEE9VVg","fJ9rUzIMcZQ",
+      "L_jWHffIx5E","ktvTqknDobU","kXYiU_JCYtU","pRpeEdMmmQ0","hLQl3WQQoQ0",
+      "uelHwf8o7_U","M11SvDtPBhA","YVkUvmDQ3HY","eVTXPUF4Oz4","fLexgOxsZu0",
+      "KQ6zr6kCPj8","tVj0ZTS4WF4","09R8_2nJtjg","_Yhyp-_hX2s","60ItHLz5WEA"
+    ].map((videoId, index) => ({
+      title: `Video ${index + 1}`,
+      videoId,
+      url: `https://www.youtube.com/watch?v=${videoId}`,
+      thumb: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+    }));
+
+    const folders = document.getElementById("folders");
+    const subfolders = document.getElementById("subfolders");
+    const gallery = document.getElementById("gallery");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxContent = document.getElementById("lightboxContent");
+    const closeBtn = document.getElementById("closeBtn");
+    const infoBtn = document.getElementById("infoBtn");
+    const infoPanel = document.getElementById("infoPanel");
+    const themeBtn = document.getElementById("themeBtn");
+
+    const infoTitle = document.getElementById("infoTitle");
+    const infoDescription = document.getElementById("infoDescription");
+    const infoStory = document.getElementById("infoStory");
+    const infoReason = document.getElementById("infoReason");
+    const infoCamera = document.getElementById("infoCamera");
+    const infoDate = document.getElementById("infoDate");
+    const infoFolder = document.getElementById("infoFolder");
+
+    let currentItem = null;
+    let activeFolder = "All Stories";
+    let activeSubfolder = "All Others";
+
+    function setTheme(theme) {
+      document.body.dataset.theme = theme;
+      localStorage.setItem("shutterbug-theme", theme);
+    }
+
+    const savedTheme = localStorage.getItem("shutterbug-theme");
+    setTheme(savedTheme || "light");
+
+    themeBtn.onclick = () => {
+      setTheme(document.body.dataset.theme === "dark" ? "light" : "dark");
+    };
+
+    function renderFolders() {
+      folders.innerHTML = "";
+      topFolders.forEach((folder) => {
+        const button = document.createElement("button");
+        button.className = `folder-btn ${folder === activeFolder ? "active" : ""}`;
+        button.textContent = folder;
+        button.onclick = () => {
+          activeFolder = folder;
+          activeSubfolder = "All Others";
+          renderFolders();
+          renderSubfolders();
+          renderGallery();
+        };
+        folders.appendChild(button);
+      });
+    }
+
+    function renderSubfolders() {
+      if (activeFolder !== "Others") {
+        subfolders.classList.add("hidden");
+        subfolders.innerHTML = "";
+        return;
+      }
+
+      subfolders.classList.remove("hidden");
+      subfolders.innerHTML = "";
+
+      const allBtn = document.createElement("button");
+      allBtn.className = `subfolder
