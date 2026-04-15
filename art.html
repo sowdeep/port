@@ -708,4 +708,162 @@
       subfolders.innerHTML = "";
 
       const allBtn = document.createElement("button");
-      allBtn.className = `subfolder
+      allBtn.className = `subfolder-btn ${activeSubfolder === "All Others" ? "active" : ""}`;
+      allBtn.textContent = "All Others";
+      allBtn.onclick = () => {
+        activeSubfolder = "All Others";
+        renderSubfolders();
+        renderGallery();
+      };
+      subfolders.appendChild(allBtn);
+
+      otherSubfolders.forEach((folder) => {
+        const button = document.createElement("button");
+        button.className = `subfolder-btn ${activeSubfolder === folder ? "active" : ""}`;
+        button.textContent = folder;
+        button.onclick = () => {
+          activeSubfolder = folder;
+          renderSubfolders();
+          renderGallery();
+        };
+        subfolders.appendChild(button);
+      });
+    }
+
+    function visiblePhotos() {
+      if (activeFolder === "All Stories") return photoItems;
+      if (activeFolder === "Others") {
+        if (activeSubfolder === "All Others") return photoItems.filter((item) => item.section === "Others");
+        return photoItems.filter((item) => item.section === "Others" && item.subfolder === activeSubfolder);
+      }
+      return photoItems.filter((item) => item.section === activeFolder);
+    }
+
+    function renderGallery() {
+      gallery.innerHTML = "";
+
+      if (activeFolder === "youtube") {
+        gallery.className = "youtube-grid";
+        youtubeItems.forEach((item) => {
+          const link = document.createElement("a");
+          link.className = "youtube-card";
+          link.href = item.url;
+          link.target = "_blank";
+          link.rel = "noreferrer";
+
+          const thumb = document.createElement("div");
+          thumb.className = "yt-thumb";
+
+          const img = document.createElement("img");
+          img.src = item.thumb;
+          img.alt = item.title;
+          img.loading = "lazy";
+          img.decoding = "async";
+
+          const meta = document.createElement("div");
+          meta.className = "youtube-meta";
+          meta.innerHTML = `
+            <span class="card-title">${item.title}</span>
+            <span class="media-tag">YouTube</span>
+          `;
+
+          thumb.appendChild(img);
+          link.append(thumb, meta);
+          gallery.appendChild(link);
+        });
+        return;
+      }
+
+      gallery.className = "masonry";
+      visiblePhotos().forEach((item, index) => {
+        const card = document.createElement("article");
+        card.className = `card ${item.sizeClass}`;
+        card.onclick = () => openLightbox(item);
+
+        const img = document.createElement("img");
+        img.src = item.src;
+        img.alt = item.title;
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.style.width = "100%";
+        img.style.display = "block";
+        img.style.objectFit = "cover";
+
+        if (item.sizeClass === "photo-landscape") {
+          img.style.aspectRatio = "4 / 3";
+        } else if (item.sizeClass === "photo-square") {
+          img.style.aspectRatio = "1 / 1";
+        } else if (item.sizeClass === "photo-tall") {
+          img.style.aspectRatio = "3 / 4";
+        } else {
+          img.style.aspectRatio = "4 / 5";
+        }
+
+        const footer = document.createElement("div");
+        footer.className = "card-footer";
+        footer.innerHTML = `
+          <span class="card-title">${item.title}</span>
+          <span class="media-tag">${item.section}${item.section === "Others" && item.subfolder ? " · " + item.subfolder : ""}</span>
+        `;
+
+        card.append(img, footer);
+        gallery.appendChild(card);
+      });
+    }
+
+    function openLightbox(item) {
+      currentItem = item;
+      infoPanel.classList.remove("open");
+      lightboxContent.innerHTML = "";
+
+      const media = document.createElement("img");
+      media.src = item.src;
+      media.alt = item.title;
+
+      lightboxContent.appendChild(media);
+      updateInfo(item);
+
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+    }
+
+    function updateInfo(item) {
+      infoTitle.textContent = item.title;
+      infoDescription.textContent = item.description;
+      infoStory.textContent = item.story;
+      infoReason.textContent = item.reason;
+      infoCamera.textContent = item.camera;
+      infoDate.textContent = item.date;
+      infoFolder.textContent = `Folder: ${item.section}${item.subfolder ? " / " + item.subfolder : ""}`;
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxContent.innerHTML = "";
+      currentItem = null;
+      infoPanel.classList.remove("open");
+    }
+
+    closeBtn.onclick = closeLightbox;
+
+    infoBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (!currentItem) return;
+      infoPanel.classList.toggle("open");
+    };
+
+    lightbox.onclick = (e) => {
+      if (e.target === lightbox) closeLightbox();
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    renderFolders();
+    renderSubfolders();
+    renderGallery();
+  </script>
+</body>
+</html>
