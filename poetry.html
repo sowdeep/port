@@ -6,12 +6,22 @@
 <title>Sudip — Poetry</title>
 
 <style>
+  
 :root{
   --bg:#f6f1e9;
   --panel:rgba(251,248,243,0.9);
   --paper:#fffdf9;
   --ink:#1f2328;
   --muted:#6d6d73;
+}
+
+/* 🌙 DARK MODE VARIABLES */
+body.dark{
+  --bg:#121212;
+  --panel:#1e1e1e;
+  --paper:#1a1a1a;
+  --ink:#f5f5f5;
+  --muted:#a0a0a0;
 }
 
 /* Base */
@@ -21,6 +31,30 @@ body{
   font-family:-apple-system,Segoe UI,Roboto;
   background:linear-gradient(180deg,#fcfbf8,var(--bg));
   color:var(--ink);
+  transition:0.3s;
+}
+
+/* Topbar */
+.topbar{
+  display:flex;
+  justify-content:flex-end;
+  padding:10px 20px;
+}
+
+/* Toggle */
+.toggle{
+  cursor:pointer;
+  border:none;
+  padding:8px 14px;
+  border-radius:999px;
+  background:white;
+  font-size:13px;
+  transition:0.2s;
+}
+
+body.dark .toggle{
+  background:#333;
+  color:#fff;
 }
 
 /* Layout */
@@ -92,6 +126,10 @@ body{
   transition:.2s;
 }
 
+body.dark .poem-card{
+  background:#2a2a2a;
+}
+
 .poem-card:hover{
   transform:translateY(-2px);
 }
@@ -139,55 +177,33 @@ body{
   font-size:18px;
 }
 
-/* ✅ RESPONSIVE DESIGN */
-
-/* Tablet */
+/* Responsive */
 @media(max-width:1024px){
-  .shell{
-    grid-template-columns:1fr;
-  }
-
-  .image-card{
-    height:300px;
-  }
+  .shell{grid-template-columns:1fr;}
 }
 
-/* Mobile */
 @media(max-width:600px){
-  .shell{
-    padding:12px;
-    gap:12px;
-  }
-
-  .panel{
-    padding:16px;
-  }
-
+  .shell{padding:12px;}
   .name{font-size:22px;}
   .reader-title{font-size:22px;}
   .reader-content{font-size:16px;}
-
-  .image-card{
-    height:240px;
-  }
-
-  .poem-list{
-    max-height:none;
-  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- 🌙 Toggle -->
+<div class="topbar">
+  <button class="toggle" onclick="toggleDark()">🌙 Dark</button>
+</div>
+
 <div class="shell">
 
-  <!-- LEFT PANEL -->
+  <!-- LEFT -->
   <div class="panel">
-
-    <!-- ✅ FIXED IMAGE (NOT RANDOM) -->
     <div class="image-card">
-      <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d" alt="Sudip">
+      <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d">
     </div>
 
     <div class="name">Sudip</div>
@@ -203,10 +219,9 @@ body{
         <div class="lbl">Words</div>
       </div>
     </div>
-
   </div>
 
-  <!-- RIGHT PANEL -->
+  <!-- RIGHT -->
   <div class="panel">
     <div class="poem-list" id="poemList"></div>
   </div>
@@ -224,76 +239,110 @@ body{
 
 <script>
 
+/* 🌙 Dark Mode */
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark");
+}
+
 /* Poems */
 const poems = [
-{title:"The Window",content:`The window stays open
-even when no one is home.
+{
+title:"The Window",
+content:`The window stays open  
+even when no one is home.  
 
-Light walks in slowly,
-like it remembers me.`},
+Morning leans in slowly,  
+touching the quiet corners of the room,  
+as if it remembers yesterday.  
 
-{title:"Dust",content:`Dust settles where memory pauses.`},
+Dust floats like soft thoughts—  
+and for a moment,  
+everything feels enough.`
+},
 
-{title:"Rain Thought",content:`Rain falls without asking.`},
+{
+title:"Dust",
+content:`Dust settles where memory pauses,  
+on books we meant to finish.  
 
-{title:"Still",content:`There is a place that does not move.`},
+Time does not forget—  
+it simply becomes quieter.`
+},
 
-{title:"Coffee",content:`The cup cools before thoughts end.`},
+{
+title:"Rain Thought",
+content:`Rain does not ask permission.  
 
-{title:"Footsteps",content:`Someone walked here before me.`},
+It falls,  
+and somehow  
+we understand.`
+},
 
-{title:"Night Room",content:`Even walls breathe slower.`},
+{
+title:"Still",
+content:`In the middle of noise  
+there is a place that does not move.  
 
-{title:"Silence",content:`Silence is full.`},
+I go there  
+to remember myself.`
+},
 
-{title:"Familiar Stranger",content:`I met myself today.`},
+{
+title:"Coffee",
+content:`The cup cools  
+before I finish thinking.  
 
-{title:"The Chair",content:`The empty chair waits.`},
+Some thoughts  
+are meant to fade.`
+},
 
-{title:"Ink",content:`Ink understands.`},
+{
+title:"Night Room",
+content:`At night  
+even walls breathe slower.  
 
-{title:"Morning Delay",content:`Morning arrives quietly.`},
+The room softens  
+and listens.`
+},
 
-{title:"Echo",content:`Silence repeats.`},
+{
+title:"Silence",
+content:`Silence is not empty.  
 
-{title:"Between",content:`Truth lives between.`},
+It is full  
+of everything we avoid.`
+},
 
-{title:"Old Pages",content:`Time smells old.`},
+{
+title:"Echo",
+content:`I said your name once.  
 
-{title:"Half Light",content:`Almost something.`},
+The silence  
+answered better.`
+},
 
-{title:"Waiting",content:`Waiting for myself.`},
+{
+title:"Waiting",
+content:`I am not waiting for someone.  
 
-{title:"Wind",content:`Wind remembers.`},
+I am waiting  
+to feel whole.`
+},
 
-{title:"Streetlight",content:`Light shrinks the world.`},
-
-{title:"Slow Time",content:`Time slows.`},
-
-{title:"Unsent",content:`Unspoken words stay.`},
-
-{title:"Fading",content:`Things soften away.`},
-
-{title:"Alone",content:`Alone is clarity.`},
-
-{title:"Breath",content:`I forget to breathe.`},
-
-{title:"Edges",content:`Life happens quietly.`},
-
-{title:"Pause",content:`Pause becomes meaning.`},
-
-{title:"Memory Line",content:`It curves back.`},
-
-{title:"Light Again",content:`Light returns.`},
-
-{title:"Soft Ending",content:`Endings rest.`},
-
-{title:"After",content:`Something remains.`}
+{
+title:"Light Again",
+content:`Light returns  
+even when unnoticed.`
+}
 ];
 
 /* Render */
-const list = document.getElementById("poemList");
-
+const list=document.getElementById("poemList");
 poems.forEach((p,i)=>{
   const el=document.createElement("div");
   el.className="poem-card";
@@ -304,23 +353,23 @@ poems.forEach((p,i)=>{
 });
 
 /* Stats */
-document.getElementById("poemCount").textContent = poems.length;
+document.getElementById("poemCount").textContent=poems.length;
 
 let words=0;
 poems.forEach(p=>{
-  words += p.content.split(/\s+/).filter(Boolean).length;
+  words+=p.content.split(/\s+/).length;
 });
-document.getElementById("wordsCount").textContent = words;
+document.getElementById("wordsCount").textContent=words;
 
 /* Reader */
 function openReader(i){
-  document.getElementById("reader").classList.add("open");
-  document.getElementById("readerTitle").textContent=poems[i].title;
-  document.getElementById("readerContent").textContent=poems[i].content;
+  reader.classList.add("open");
+  readerTitle.textContent=poems[i].title;
+  readerContent.textContent=poems[i].content;
 }
 
 function closeReader(){
-  document.getElementById("reader").classList.remove("open");
+  reader.classList.remove("open");
 }
 
 </script>
