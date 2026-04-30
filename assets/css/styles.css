@@ -1295,3 +1295,38 @@ img {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+:root{
+  --services-title: #111111;
+  --services-subtitle: #666666;
+  --services-card-title: #111111;
+  --services-card-text: #666666;
+}
+
+body.dark-mode,
+html.dark-mode,
+body.dark-theme,
+html.dark-theme,
+[data-theme="dark"]{
+  --services-title: #ffffff;
+  --services-subtitle: #cfcfcf;
+  --services-card-title: #ffffff;
+  --services-card-text: #cfcfcf;
+}
+
+#services .section__title,
+#services .services__title{
+  color: var(--services-title);
+}
+
+#services .section__subtitle{
+  color: var(--services-subtitle);
+}
+
+#services .card h3{
+  color: var(--services-card-title);
+}
+
+#services .card p,
+#services .content p{
+  color: var(--services-card-text);
+}
