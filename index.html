@@ -453,14 +453,16 @@ Contact Me <i class="uil uil-message button__icon"></i>
             </div>
         </section>
 
-       <section class="services" id="services">
+      <section class="services section" id="services">
 
-  <h2 class="section-title">Researches</h2>
-           <span class="section__subtitle">Curious by nature, I explore ideas that go beyond the surface — from structures to stories.</span>
+  <h2 class="section__title">Card I Like</h2>
+  <span class="section__subtitle">
+    Curious by nature, I explore ideas that go beyond the surface — from structures to stories.
+  </span>
 
   <div class="cards">
 
-    <!-- CARD -->
+    <!-- CARD 1 -->
     <div class="card">
       <div class="img">
         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
@@ -479,7 +481,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
       </div>
     </div>
 
-    <!-- CARD -->
+    <!-- CARD 2 -->
     <div class="card">
       <div class="img">
         <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
@@ -498,7 +500,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
       </div>
     </div>
 
-    <!-- CARD -->
+    <!-- CARD 3 -->
     <div class="card">
       <div class="img">
         <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
@@ -530,135 +532,147 @@ Contact Me <i class="uil uil-message button__icon"></i>
 <style>
 
 /* SECTION */
-.services{
-  padding: 50px 16px;
-  text-align: center;
+.services.section{
+  padding:50px 16px;
+  text-align:center;
 }
 
-/* TITLE */
-.section-title{
-  font-size: 32px;
-  margin-bottom: 30px;
+/* TITLE + SUBTITLE */
+.section__title{
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+.section__subtitle{
+  display:block;
+  font-size:14px;
+  color:#666;
+  margin-bottom:30px;
 }
 
 /* GRID */
 .cards{
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
 }
 
 /* CARD */
 .card{
-  width: 280px;
-  border-radius: 20px;
-  padding: 8px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0,0,0,0.1);
-  background: rgba(255,255,255,0.6);
-  transition: 0.3s;
+  width:280px;
+  border-radius:20px;
+  padding:8px;
+  border:1px solid #eee;
+  background:#fff;
+  transition:0.3s;
 }
 
-/* HOVER */
 .card:hover{
-  transform: translateY(-6px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  transform:translateY(-6px);
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
 }
 
 /* IMAGE */
 .img{
-  height: 180px;
-  overflow: hidden;
-  border-radius: 15px;
+  height:180px;
+  overflow:hidden;
+  border-radius:15px;
 }
 
 .img img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: 0.5s;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.5s;
 }
 
 .card:hover img{
-  transform: scale(1.1);
+  transform:scale(1.1);
 }
 
 /* CONTENT */
 .content{
-  padding: 10px;
+  padding:10px;
 }
 
 .top{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .top span{
-  font-size: 12px;
-  background: rgba(0,0,0,0.1);
-  padding: 4px 8px;
-  border-radius: 20px;
+  font-size:12px;
+  background:#f0f0f0;
+  padding:4px 8px;
+  border-radius:20px;
 }
 
 p{
-  font-size: 13px;
-  margin: 8px 0;
+  font-size:13px;
+  margin:8px 0;
+  color:#555;
 }
 
 /* TAGS */
 .tags{
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
+  display:flex;
+  gap:6px;
+  margin-bottom:10px;
 }
 
 .tags span{
-  font-size: 10px;
-  padding: 4px 8px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.05);
+  font-size:10px;
+  padding:4px 8px;
+  border-radius:20px;
+  background:#f5f5f5;
 }
 
 /* BUTTON */
 button{
-  width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-  background: #111;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  background:#7ED957;
+  color:#111;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.25s;
+}
+
+button:hover{
+  background:#6fc94a;
+  transform:scale(0.97);
 }
 
 /* HELLO PAGE */
 #helloPage{
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  backdrop-filter: blur(12px);
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:#fff;
 }
 
 #helloPage.active{
-  display: flex;
+  display:flex;
 }
 
 #helloPage h1{
-  font-size: 50px;
+  font-size:50px;
 }
 
 .back{
-  margin-top: 15px;
-  padding: 8px 15px;
-  background: #111;
-  color: #fff;
-  border-radius: 20px;
-  cursor: pointer;
+  margin-top:15px;
+  padding:10px 18px;
+  background:#7ED957;
+  color:#111;
+  border-radius:20px;
+  cursor:pointer;
 }
 
 </style>
@@ -672,7 +686,6 @@ function closeHello(){
   document.getElementById("helloPage").classList.remove("active");
 }
 </script>
-
         <section class="portfolio section" id="portfolio">
             <h2 class="section__title">Beyond Engineering</h2>
             <span class="section__subtitle">A space where creativity, poetry, philosophy, and ideas intersect with my engineering journey.</span>
