@@ -453,7 +453,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
             </div>
         </section>
 
-      <section class="services section" id="services">
+     <section class="services section" id="services">
 
   <h2 class="section__title">Card I Like</h2>
   <span class="section__subtitle">
@@ -462,7 +462,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
 
   <div class="cards">
 
-    <!-- CARD 1 -->
+    <!-- CARD -->
     <div class="card">
       <div class="img">
         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
@@ -481,44 +481,8 @@ Contact Me <i class="uil uil-message button__icon"></i>
       </div>
     </div>
 
-    <!-- CARD 2 -->
-    <div class="card">
-      <div class="img">
-        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
-      </div>
-      <div class="content">
-        <div class="top">
-          <h3>Deep Blue Nights</h3>
-          <span>$2,999</span>
-        </div>
-        <p>Peace louder than the city. A full reset experience.</p>
-        <div class="tags">
-          <span>Top Pick</span>
-          <span>Only 9 left</span>
-        </div>
-        <button onclick="openHello()">Explore</button>
-      </div>
-    </div>
-
-    <!-- CARD 3 -->
-    <div class="card">
-      <div class="img">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-      </div>
-      <div class="content">
-        <div class="top">
-          <h3>Deep Blue Nights</h3>
-          <span>$2,999</span>
-        </div>
-        <p>Peace louder than the city. A full reset experience.</p>
-        <div class="tags">
-          <span>Top Pick</span>
-          <span>Only 9 left</span>
-        </div>
-        <button onclick="openHello()">Explore</button>
-      </div>
-    </div>
-
+    <!-- duplicate same for other 2 cards -->
+    
   </div>
 
 </section>
@@ -531,13 +495,33 @@ Contact Me <i class="uil uil-message button__icon"></i>
 
 <style>
 
+/* ===== THEME VARIABLES ===== */
+:root{
+  --card-bg: #ffffff;
+  --text-main: #111;
+  --text-sub: #555;
+  --border: #eee;
+  --tag-bg: #f5f5f5;
+  --chip-bg: #f0f0f0;
+}
+
+/* DARK MODE (auto OR your toggle class) */
+body.dark-mode,
+[data-theme="dark"]{
+  --card-bg: #1a1a1a;
+  --text-main: #f5f5f5;
+  --text-sub: #bbb;
+  --border: #333;
+  --tag-bg: #2a2a2a;
+  --chip-bg: #2a2a2a;
+}
+
 /* SECTION */
 .services.section{
   padding:50px 16px;
   text-align:center;
 }
 
-/* TITLE + SUBTITLE */
 .section__title{
   font-size:32px;
   margin-bottom:10px;
@@ -546,7 +530,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
 .section__subtitle{
   display:block;
   font-size:14px;
-  color:#666;
+  color:var(--text-sub);
   margin-bottom:30px;
 }
 
@@ -563,14 +547,15 @@ Contact Me <i class="uil uil-message button__icon"></i>
   width:280px;
   border-radius:20px;
   padding:8px;
-  border:1px solid #eee;
-  background:#fff;
+  border:1px solid var(--border);
+  background:var(--card-bg);
+  color:var(--text-main);
   transition:0.3s;
 }
 
 .card:hover{
   transform:translateY(-6px);
-  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+  box-shadow:0 15px 30px rgba(0,0,0,0.15);
 }
 
 /* IMAGE */
@@ -604,7 +589,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
 
 .top span{
   font-size:12px;
-  background:#f0f0f0;
+  background:var(--chip-bg);
   padding:4px 8px;
   border-radius:20px;
 }
@@ -612,7 +597,7 @@ Contact Me <i class="uil uil-message button__icon"></i>
 p{
   font-size:13px;
   margin:8px 0;
-  color:#555;
+  color:var(--text-sub);
 }
 
 /* TAGS */
@@ -626,10 +611,10 @@ p{
   font-size:10px;
   padding:4px 8px;
   border-radius:20px;
-  background:#f5f5f5;
+  background:var(--tag-bg);
 }
 
-/* BUTTON */
+/* BUTTON (your theme green) */
 button{
   width:100%;
   padding:10px;
@@ -655,7 +640,8 @@ button:hover{
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  background:#fff;
+  background:var(--card-bg);
+  color:var(--text-main);
 }
 
 #helloPage.active{
@@ -681,7 +667,6 @@ button:hover{
 function openHello(){
   document.getElementById("helloPage").classList.add("active");
 }
-
 function closeHello(){
   document.getElementById("helloPage").classList.remove("active");
 }
