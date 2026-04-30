@@ -453,223 +453,388 @@ Contact Me <i class="uil uil-message button__icon"></i>
             </div>
         </section>
 
-     <section class="services section" id="services">
+    <section class="services section" id="services">
+  <div class="services__inner">
+    <h2 class="section__title">Card I Like</h2>
+    <span class="section__subtitle">
+      Curious by nature, I explore ideas that go beyond the surface — from structures to stories.
+    </span>
 
-  <h2 class="section__title">Card I Like</h2>
-  <span class="section__subtitle">
-    Curious by nature, I explore ideas that go beyond the surface — from structures to stories.
-  </span>
-
-  <div class="cards">
-
-    <!-- CARD -->
-    <div class="card">
-      <div class="img">
-        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
-      </div>
-      <div class="content">
-        <div class="top">
-          <h3>Deep Blue Nights</h3>
-          <span>$2,999</span>
+    <div class="cards">
+      <article class="card">
+        <div class="img">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80" alt="Mountain view 1">
+          <div class="dots"><span></span><span></span><span></span></div>
         </div>
-        <p>Peace louder than the city. A full reset experience.</p>
-        <div class="tags">
-          <span>Top Pick</span>
-          <span>Only 9 left</span>
+        <div class="content">
+          <div class="top">
+            <h3>Deep Blue Nights</h3>
+            <span>$2,999</span>
+          </div>
+          <p>Peace louder than the city. A full reset experience.</p>
+          <div class="tags">
+            <span>Top Pick</span>
+            <span>Only 9 left</span>
+          </div>
+          <button type="button" onclick="openPage(1)">Explore</button>
         </div>
-        <button onclick="openHello()">Explore</button>
-      </div>
+      </article>
+
+      <article class="card">
+        <div class="img">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80" alt="Mountain view 2">
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="content">
+          <div class="top">
+            <h3>Deep Blue Nights</h3>
+            <span>$2,999</span>
+          </div>
+          <p>Peace louder than the city. A full reset experience.</p>
+          <div class="tags">
+            <span>Top Pick</span>
+            <span>Only 9 left</span>
+          </div>
+          <button type="button" onclick="openPage(2)">Explore</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="img">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Mountain view 3">
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="content">
+          <div class="top">
+            <h3>Deep Blue Nights</h3>
+            <span>$2,999</span>
+          </div>
+          <p>Peace louder than the city. A full reset experience.</p>
+          <div class="tags">
+            <span>Top Pick</span>
+            <span>Only 9 left</span>
+          </div>
+          <button type="button" onclick="openPage(3)">Explore</button>
+        </div>
+      </article>
     </div>
-
-    <!-- duplicate same for other 2 cards -->
-    
   </div>
 
+  <!-- PAGE 1 -->
+  <div class="hello-page" id="page1" aria-hidden="true">
+    <div class="hello-page__panel">
+      <button class="back" type="button" onclick="closePage(1)">Back</button>
+      <h1>Hello 1</h1>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="hello-page" id="page2" aria-hidden="true">
+    <div class="hello-page__panel">
+      <button class="back" type="button" onclick="closePage(2)">Back</button>
+      <h1>Hello 2</h1>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="hello-page" id="page3" aria-hidden="true">
+    <div class="hello-page__panel">
+      <button class="back" type="button" onclick="closePage(3)">Back</button>
+      <h1>Hello 3</h1>
+    </div>
+  </div>
 </section>
 
-<!-- HELLO PAGE -->
-<div id="helloPage">
-  <h1>Hello</h1>
-  <div class="back" onclick="closeHello()">Back</div>
-</div>
-
 <style>
+  :root{
+    --section-bg: transparent;
+    --title: #111111;
+    --subtitle: #666666;
 
-/* ===== THEME VARIABLES ===== */
-:root{
-  --card-bg: #ffffff;
-  --text-main: #111;
-  --text-sub: #555;
-  --border: #eee;
-  --tag-bg: #f5f5f5;
-  --chip-bg: #f0f0f0;
-}
+    --card-bg: #ffffff;
+    --card-border: #e9e9e9;
+    --card-text: #111111;
+    --muted: #666666;
+    --tag-bg: #f4f4f4;
+    --chip-bg: #efefef;
+    --shadow: 0 14px 34px rgba(0,0,0,0.08);
 
-/* DARK MODE (auto OR your toggle class) */
-body.dark-mode,
-[data-theme="dark"]{
-  --card-bg: #1a1a1a;
-  --text-main: #f5f5f5;
-  --text-sub: #bbb;
-  --border: #333;
-  --tag-bg: #2a2a2a;
-  --chip-bg: #2a2a2a;
-}
+    --hello-bg: #ffffff;
 
-/* SECTION */
-.services.section{
-  padding:50px 16px;
-  text-align:center;
-}
+    --button-bg: #7ED957;
+    --button-text: #111111;
+    --button-hover: #6fc94a;
+  }
 
-.section__title{
-  font-size:32px;
-  margin-bottom:10px;
-}
+  body.dark-mode,
+  html.dark-mode,
+  [data-theme="dark"]{
+    --title: #f5f5f5;
+    --subtitle: #a8a8a8;
 
-.section__subtitle{
-  display:block;
-  font-size:14px;
-  color:var(--text-sub);
-  margin-bottom:30px;
-}
+    --card-bg: #171717;
+    --card-border: #2a2a2a;
+    --card-text: #f5f5f5;
+    --muted: #b0b0b0;
+    --tag-bg: #242424;
+    --chip-bg: #242424;
+    --shadow: 0 14px 34px rgba(0,0,0,0.28);
 
-/* GRID */
-.cards{
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
+    --hello-bg: #111111;
 
-/* CARD */
-.card{
-  width:280px;
-  border-radius:20px;
-  padding:8px;
-  border:1px solid var(--border);
-  background:var(--card-bg);
-  color:var(--text-main);
-  transition:0.3s;
-}
+    --button-bg: #7ED957;
+    --button-text: #111111;
+    --button-hover: #6fc94a;
+  }
 
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 15px 30px rgba(0,0,0,0.15);
-}
+  .services.section{
+    padding: 44px 16px;
+    background: var(--section-bg);
+  }
 
-/* IMAGE */
-.img{
-  height:180px;
-  overflow:hidden;
-  border-radius:15px;
-}
+  .services__inner{
+    max-width: 1120px;
+    margin: 0 auto;
+  }
 
-.img img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:0.5s;
-}
+  .section__title{
+    margin: 0;
+    text-align: center;
+    color: var(--title);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+  }
 
-.card:hover img{
-  transform:scale(1.1);
-}
+  .section__subtitle{
+    display: block;
+    margin: 12px auto 28px;
+    max-width: 760px;
+    text-align: center;
+    color: var(--subtitle);
+    font-size: 14px;
+    line-height: 1.6;
+  }
 
-/* CONTENT */
-.content{
-  padding:10px;
-}
+  .cards{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+  .card{
+    background: var(--card-bg);
+    color: var(--card-text);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
 
-.top span{
-  font-size:12px;
-  background:var(--chip-bg);
-  padding:4px 8px;
-  border-radius:20px;
-}
+  .card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.14);
+  }
 
-p{
-  font-size:13px;
-  margin:8px 0;
-  color:var(--text-sub);
-}
+  .img{
+    position: relative;
+    height: 210px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #ddd;
+  }
 
-/* TAGS */
-.tags{
-  display:flex;
-  gap:6px;
-  margin-bottom:10px;
-}
+  .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .55s ease;
+  }
 
-.tags span{
-  font-size:10px;
-  padding:4px 8px;
-  border-radius:20px;
-  background:var(--tag-bg);
-}
+  .card:hover .img img{
+    transform: scale(1.08);
+  }
 
-/* BUTTON (your theme green) */
-button{
-  width:100%;
-  padding:10px;
-  border-radius:12px;
-  border:none;
-  background:#7ED957;
-  color:#111;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.25s;
-}
+  .dots{
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+  }
 
-button:hover{
-  background:#6fc94a;
-  transform:scale(0.97);
-}
+  .dots span{
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.8);
+  }
 
-/* HELLO PAGE */
-#helloPage{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  background:var(--card-bg);
-  color:var(--text-main);
-}
+  .img::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.42), transparent 58%);
+    pointer-events: none;
+  }
 
-#helloPage.active{
-  display:flex;
-}
+  .content{
+    padding: 12px 8px 8px;
+  }
 
-#helloPage h1{
-  font-size:50px;
-}
+  .top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
 
-.back{
-  margin-top:15px;
-  padding:10px 18px;
-  background:#7ED957;
-  color:#111;
-  border-radius:20px;
-  cursor:pointer;
-}
+  .top h3{
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: var(--card-text);
+  }
 
+  .top span{
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--card-text);
+    white-space: nowrap;
+  }
+
+  .content p{
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 12px;
+  }
+
+  .tags span{
+    font-size: 10px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: var(--tag-bg);
+    color: var(--card-text);
+  }
+
+  button{
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 14px;
+    background: var(--button-bg);
+    color: var(--button-text);
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, opacity .2s ease;
+  }
+
+  button:hover{
+    background: var(--button-hover);
+    transform: scale(0.985);
+  }
+
+  .hello-page{
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: var(--hello-bg);
+  }
+
+  .hello-page.active{
+    display: flex;
+  }
+
+  .hello-page__panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    padding: 28px;
+    color: var(--card-text);
+  }
+
+  .hello-page__panel h1{
+    margin: 0;
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+    letter-spacing: -0.05em;
+  }
+
+  .back{
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: var(--button-bg);
+    color: var(--button-text);
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  @media (max-width: 980px){
+    .cards{
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px){
+    .services.section{
+      padding: 34px 12px;
+    }
+
+    .section__subtitle{
+      margin-bottom: 22px;
+    }
+
+    .cards{
+      grid-template-columns: 1fr;
+    }
+
+    .img{
+      height: 200px;
+    }
+  }
 </style>
 
 <script>
-function openHello(){
-  document.getElementById("helloPage").classList.add("active");
-}
-function closeHello(){
-  document.getElementById("helloPage").classList.remove("active");
-}
+  function openPage(n) {
+    document.getElementById("page" + n).classList.add("active");
+    document.getElementById("page" + n).setAttribute("aria-hidden", "false");
+  }
+
+  function closePage(n) {
+    document.getElementById("page" + n).classList.remove("active");
+    document.getElementById("page" + n).setAttribute("aria-hidden", "true");
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closePage(1);
+      closePage(2);
+      closePage(3);
+    }
+  });
 </script>
         <section class="portfolio section" id="portfolio">
             <h2 class="section__title">Beyond Engineering</h2>
